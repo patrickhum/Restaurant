@@ -1,20 +1,16 @@
-const http = require('http');
-const fs = require('fs');
+const express = require('express')
+const path = require('path')
+const app = express()
 
-const indexHTML = fs.readFileSync('../public/index.html','utf-8');
+const publicDirectory = '../public'
 
 
-const server = http.createServer((req,res)=>{
-    const pathName = req.url;
-    if(pathName==='/'|| pathName ==='/home'){
-        res.end(indexHTML);
-    }else{
-        res.writeHead(404);
-        res.end("<h1>Not Found</h1>")
-    }
+const indexPage = path.resolve(publicDirectory, 'index.html')
 
+app.get("/",(req,res)=>{
+    res.sendFile(indexPage)
 })
 
-server.listen(3000,'localhost',()=>{
+app.listen(3000,()=>{
     console.log("Start server in port 3000");
 })
